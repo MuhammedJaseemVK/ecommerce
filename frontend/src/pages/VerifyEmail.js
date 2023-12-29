@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { FaLinkSlash } from "react-icons/fa6";
+import { FaLink } from "react-icons/fa6";
 
 function VerifyEmail() {
     const [validUrl, setValidUrl] = useState(false);
     const params = useParams();
+    const navigate = useNavigate()
 
     const verifyEmailUrl = async () => {
         try {
-            const res = await axios.get(`/api/v1/user/${params.id}/verify/${params.token}`);
-            if (res.data.success) {
-                setValidUrl(true);
-                console.log(res.data.message);
-            }
+            const { data } = await axios.get(`http://localhost:8080/api/v1/user/${params.id}/verify/${params.token}`);
+            console.log(data);
+            setValidUrl(true);
+            setTimeout(() => {
+                navigate('/');
+            }, 3000);
         }
         catch (error) {
             console.log(error);
@@ -25,12 +29,15 @@ function VerifyEmail() {
     return (
         <>
             {validUrl ? (
-                <div>
-                    <img src="https://assets.isu.pub/document-structure/221206063302-b62f83e97af058af759e49d46029d563/v1/f35c0d3a6a30d1d863d1a00d709fdf18.jpeg" alt="green check" />
+                <div className='flex flex-col justify-center items-center h-full'>
+                    <FaLinkSlash size={50} />
                     <h1>Email verified successfully</h1>
                 </div>
             ) : (
-                <div>404 not found</div>
+                <div className='flex flex-col justify-center items-center h-full'>
+                    <FaLink size={50} />
+                    <h1>404 not found</h1>
+                </div>
             )}
         </>
     )

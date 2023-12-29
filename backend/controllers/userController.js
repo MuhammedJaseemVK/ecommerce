@@ -27,7 +27,7 @@ const registerController = async (req, res) => {
             userId: user._id,
             token: crypto.randomBytes(32).toString("hex"),
         }).save();
-        const url = `${process.env.BASE_URL}/api/v1/user/${user.id}/verify/${verificationToken.token}`;
+        const url = `${process.env.BASE_URL}/user/${user.id}/verify/${verificationToken.token}`;
         await sendEmail(user.email, "Verify Email", url);
 
         res.status(201).send({ success: true, message: "An email is sent to ypur account.please verify", user });
@@ -61,7 +61,7 @@ const loginController = async (req, res) => {
                     userId: user._id,
                     token: crypto.randomBytes(32).toString("hex"),
                 }).save();
-                const url = `${process.env.BASE_URL}/api/v1/user/${user.id}/verify/${verificationToken.token}`;
+                const url = `${process.env.BASE_URL}/user/${user.id}/verify/${verificationToken.token}`;
                 await sendEmail(user.email, "Verify Email", url);
             }
 
@@ -94,7 +94,7 @@ const verifyEmailController = async (req, res) => {
             return res.status(400).send({ success: false, message: "Invalid link" });
         }
 
-        await userModel.updateOne({ _id: user._id, isVerified: true });
+        await userModel.updateOne({ _id: user._id }, { $set: { isVerified: true } });
         await verificationTokenModel.deleteOne({ userId: user._id });
 
         res.status(200).send({ success: true, message: "Email verified successfully" });
