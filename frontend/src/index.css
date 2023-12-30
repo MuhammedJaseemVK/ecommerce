@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .btn {
+        @apply rounded-md bg-blue-500 text-white px-2 py-1
+    }
+    .form-container{
+        @apply flex flex-col justify-center items-start shadow-xl w-[500px] bg-yellow-500 rounded-md p-3 gap-2
+    }
+    .container{
+        @apply h-screen flex flex-col justify-center items-center text-lg
+    }
+}

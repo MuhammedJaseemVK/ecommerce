@@ -29,14 +29,14 @@ function VerifyEmail() {
     return (
         <>
             {validUrl ? (
-                <div className='flex flex-col justify-center items-center h-full'>
-                    <FaLinkSlash size={50} />
-                    <h1>Email verified successfully</h1>
+                <div className='container'>
+                    <FaLink color='green' size={50}/>
+                    <p className='text-xl'>Email verified successfully</p>
                 </div>
             ) : (
-                <div className='flex flex-col justify-center items-center h-full'>
-                    <FaLink size={50} />
-                    <h1>404 not found</h1>
+                <div className='container'>
+                    <FaLinkSlash color='red' size={50}/>
+                    <p className='text-xl'>Invalid link</p>
                 </div>
             )}
         </>

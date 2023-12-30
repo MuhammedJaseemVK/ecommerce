@@ -1,7 +1,6 @@
 const userModel = require("../models/user");
 const { hashPassword, comparePassword, generateToken } = require("../helpers/userHelper");
 const dotenv = require("dotenv");
-const jwt = require("jsonwebtoken");
 const verificationTokenModel = require("../models/verificationToken");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
@@ -117,9 +116,93 @@ const getUserInfoController = async (req, res) => {
     }
 }
 
+const sendResetPasswordLinkController = async (req, res) => {
+    try {
+        const { email } = req.body;
+        if (!email) {
+            return res.status(400).send({ success: false, message: "Email not found" });
+        }
+
+        if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+            return res.status(400).send({ success: false, message: "invalid Email" });
+        }
+
+        const user = await userModel.findOne({ email });
+        if (!user) {
+            return res.status(404).send({ success: false, message: "No user found with this Email" });
+        }
+
+        let verificationToken = await verificationTokenModel.findOne({ userId: user._id });
+        if (!verificationToken) {
+            verificationToken = await new verificationTokenModel({ userId: user._id, token: crypto.randomBytes(32).toString("hex") }).save();
+        }
+
+        const url = `${process.env.BASE_URL}/user/reset-password/${user._id}/${verificationToken.token}`;
+        await sendEmail(user.email, "Reset Password", url);
+        res.status(200).send({ success: true, message: "Password reset link sent to your email account" });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).send({ success: false, message: "Error in sending reset password link", error })
+    }
+}
+
+const verifyResetPasswordLinkController = async (req, res) => {
+    try {
+        const user = await userModel.findOne({ _id: req.params.userId });
+        if (!user) {
+            console.log("error in user");
+            return res.status(400).send({ success: false, message: "invalid Email" });
+        }
+
+        const verificationToken = await verificationTokenModel.findOne({ userId: user._id });
+        if (!verificationToken) {
+            console.log("error in user");
+            return res.status(400).send({ success: false, message: "Invalid link" });
+        }
+        res.status(200).send({ success: true, message: "valid link" });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).send({ success: false, message: "Error in verifying reset password link", error })
+    }
+}
+
+const resetPasswordController = async (req, res) => {
+    try {
+        const user = await userModel.findOne({ _id: req.params.userId });
+        if (!user) {
+            return res.status(400).send({ success: false, message: "invalid Email" });
+        }
+        const verificationToken = await verificationTokenModel.findOne({
+            userId: user._id,
+            token: req.params.verificationToken,
+        });
+        if (!verificationToken) {
+            return res.status(400).send({ success: false, message: "Invalid link" });
+        }
+
+        if (!user.isVerified) {
+            user.isVerified = true;
+        }
+        user.password = await hashPassword(req.body.password);
+        await user.save();
+        await verificationTokenModel.deleteOne({ userId: user._id });
+
+        res.status(200).send({ success: true, message: "Password reset successfully" });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).send({ success: false, message: "Error in resetting password", error })
+    }
+}
+
 module.exports = {
     registerController,
     loginController,
     getUserInfoController,
-    verifyEmailController
+    verifyEmailController,
+    sendResetPasswordLinkController,
+    verifyResetPasswordLinkController,
+    resetPasswordController
 }

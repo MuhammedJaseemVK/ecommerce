@@ -8,6 +8,8 @@ import { useSelector } from "react-redux"
 import Spinner from "./components/Spinner";
 import Home from './pages/Home';
 import VerifyEmail from './pages/VerifyEmail';
+import ResetPassword from './pages/ResetPassword';
+import ForgotPassword from './pages/ForgotPassword';
 
 function App() {
   const { loading } = useSelector(state => state.alerts)
@@ -24,6 +26,8 @@ function App() {
               <Route path='/register' element={<Register />} />
               <Route path='/login' element={<Login />} />
               <Route path='/user/:id/verify/:token' element={<VerifyEmail />} />
+              <Route path='/user/reset-password/:id/:token' element={<ResetPassword />} />
+              <Route path='/user/forgot-password' element={<ForgotPassword />} />
             </Routes>
           </>
         )}
