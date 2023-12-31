@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const verificationTokenModel = require("../models/verificationToken");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
+const sellerModel = require("../models/seller");
 dotenv.config();
 
 const registerController = async (req, res) => {
@@ -197,6 +198,41 @@ const resetPasswordController = async (req, res) => {
     }
 }
 
+const applyForSellerController = async (req, res) => {
+    try {
+        const newSeller = new sellerModel({ ...req.body, status: 'pending' });
+        await newSeller.save();
+        const admin = await userModel.findOne({ role: "admin" });
+        const notification = admin.notification;
+        notification.push({
+            type: 'apply for seller',
+            message: `${newSeller.firstName} ${newSeller.lastName} has applied for a seller account`,
+            data: {
+                sellerId: newSeller._id,
+                name: `${newSeller.firstName} ${newSeller.lastName}`,
+                onClickPath: `/admin/sellers`
+            }
+        });
+        await userModel.findByIdAndUpdate(admin._id, { notification });
+        res.status(201).send({ success: true, message: 'Seller account applied successfully' });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).send({ success: false, message: "Error applying for seller", error })
+    }
+}
+
+const getAllNotificationController = async (req, res) => {
+    try {
+        const user = await userModel.findOne({ _id: req.body.userId });
+        res.status(200).send({ success: true, message: "All requests", data: user.notification });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).send({ success: false, message: "Error fetching notifications", error });
+    }
+}
+
 module.exports = {
     registerController,
     loginController,
@@ -204,5 +240,7 @@ module.exports = {
     verifyEmailController,
     sendResetPasswordLinkController,
     verifyResetPasswordLinkController,
-    resetPasswordController
+    resetPasswordController,
+    applyForSellerController,
+    getAllNotificationController
 }

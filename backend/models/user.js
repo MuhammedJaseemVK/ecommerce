@@ -13,6 +13,18 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "password is required"]
     },
+    role:{
+        type:String,
+        default:"user"
+    },
+    notification:{
+        type:Array,
+        default:[]
+    },
+    seenNotification:{
+        type:Array,
+        default:[]
+    },
     isVerified: {
         type: Boolean,
         default:false

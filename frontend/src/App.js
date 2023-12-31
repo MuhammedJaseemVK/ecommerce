@@ -10,6 +10,10 @@ import Home from './pages/Home';
 import VerifyEmail from './pages/VerifyEmail';
 import ResetPassword from './pages/ResetPassword';
 import ForgotPassword from './pages/ForgotPassword';
+import ApplyForSeller from './pages/ApplyForSeller';
+import Notifications from './pages/Notifications';
+import Sellers from './pages/admin/Sellers';
+import Users from './pages/admin/Users';
 
 function App() {
   const { loading } = useSelector(state => state.alerts)
@@ -28,6 +32,10 @@ function App() {
               <Route path='/user/:id/verify/:token' element={<VerifyEmail />} />
               <Route path='/user/reset-password/:id/:token' element={<ResetPassword />} />
               <Route path='/user/forgot-password' element={<ForgotPassword />} />
+              <Route path='/user/apply-for-seller' element={<ApplyForSeller />} />
+              <Route path='/notifications' element={<Notifications />} />
+              <Route path='/admin/sellers' element={<Sellers />} />
+              <Route path='/admin/users' element={<Users />} />
             </Routes>
           </>
         )}

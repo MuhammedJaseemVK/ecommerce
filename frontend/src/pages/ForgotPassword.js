@@ -34,8 +34,8 @@ function ForgotPassword() {
             <div className="container">
                 <form onSubmit={handleSubmit} className='form-container'>
                     <h1>Enter your email</h1>
-                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                    <input type="email" id="email" value={email} name="email" onChange={(e)=>setEmail(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="name@email.com" required />
+                    <label htmlFor="email" className="label-field">Your email</label>
+                    <input type="email" id="email" value={email} name="email" onChange={(e)=>setEmail(e.target.value)} className="input-field" placeholder="name@email.com" required />
                     <button type="submit" className='btn'>
                         Send password-reset link
                     </button>

@@ -5,6 +5,8 @@ const colors=require("colors");
 const morgan=require("morgan");
 const connectDB=require("./config/db");
 const userRoutes =require("./routes/userRoutes");
+const sellerRoutes=require("./routes/sellerRoutes");
+const adminRoutes=require("./routes/adminRoutes");
 const cors = require("cors");
 
 connectDB();
@@ -18,6 +20,8 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/api/v1/user',userRoutes);
+app.use('/api/v1/seller',sellerRoutes);
+app.use('/api/v1/admin',adminRoutes);
 
 app.listen(PORT,()=>{
     console.log(`Sever running on port ${PORT}`.bgCyan.white);
