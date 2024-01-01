@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import Layout from '../../components/Layout';
-import { toast } from 'react-toastify';
 
 function Users() {
     const [users, setUsers] = useState([]);

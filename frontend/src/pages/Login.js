@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../redux/features/alertSlice";
+import { setUser } from '../redux/features/userSlice';
 
 function Login() {
     const [input, setInput] = useState({
@@ -23,6 +24,7 @@ function Login() {
             dispatch(hideLoading());
             if (res.data.success) {
                 toast.success("User logged in");
+                dispatch(setUser(res.data.data));
                 localStorage.setItem('token', res.data.token);
                 navigate('/');
             }
@@ -40,7 +42,7 @@ function Login() {
     return (
         <div className='container'>
             <form className="form-container" onSubmit={handleSubmit}>
-            <h1 className='text-4xl font-bold mb-4 text-white'>User login</h1>
+                <h1 className='text-4xl font-bold mb-4 text-white'>User login</h1>
                 <div className="mb-5">
                     <label htmlFor="email" className="label-field">Your email</label>
                     <input type="email" id="email" value={input.email} name="email" onChange={handleChange} className="input-field" placeholder="name@email.com" required />
@@ -50,8 +52,8 @@ function Login() {
                     <input type="password" id="password" value={input.password} name="password" onChange={handleChange} className="input-field" placeholder="password" required minLength={3} />
                 </div>
                 <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center ">Login</button>
-            <Link to='/user/forgot-password' className='mt-3'>Forgot password ?</Link>
-            <Link to='/register' className='mt-3'>Don't have an account? Signup</Link>
+                <Link to='/user/forgot-password' className='mt-3'>Forgot password ?</Link>
+                <Link to='/register' className='mt-3'>Don't have an account? Signup</Link>
             </form>
         </div>
     )

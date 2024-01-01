@@ -52,12 +52,12 @@ export const adminMenu =[
     },
     {
         name:"Sellers",
-        path:'/apply-doctor',
+        path:'/admin/sellers',
         icon:"fa-solid fa-user-doctor"
     },
     {
         name:"Users",
-        path:'/apply-doctor',
+        path:'/admin/users',
         icon:"fa-solid fa-user-doctor"
     },
     {

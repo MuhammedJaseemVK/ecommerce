@@ -14,9 +14,12 @@ import ApplyForSeller from './pages/ApplyForSeller';
 import Notifications from './pages/Notifications';
 import Sellers from './pages/admin/Sellers';
 import Users from './pages/admin/Users';
+import AdminRoute from './components/AdminRoute';
+import UserRoute from './components/UserRoute';
+import PublicRoute from './components/PublicRoute';
 
 function App() {
-  const { loading } = useSelector(state => state.alerts)
+  const { loading } = useSelector(state => state.alerts);
   return (
     <div className='h-screen'>
       <BrowserRouter>
@@ -26,9 +29,9 @@ function App() {
           <>
             <ToastContainer />
             <Routes>
-              <Route path='/' element={<Home /> }/>
-              <Route path='/register' element={<Register />} />
-              <Route path='/login' element={<Login />} />
+              <Route path='/' element={<PublicRoute><Home /></PublicRoute>} />
+              <Route path='/register' element={<PublicRoute><Register /></PublicRoute>} />
+              <Route path='/login' element={<PublicRoute><Login /></PublicRoute>} />
               <Route path='/user/:id/verify/:token' element={<VerifyEmail />} />
               <Route path='/user/reset-password/:id/:token' element={<ResetPassword />} />
               <Route path='/user/forgot-password' element={<ForgotPassword />} />

@@ -1,43 +1,22 @@
-import React,{useEffect} from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { adminMenu, sellerMenu, userMenu } from '../Data/Data';
 import { setUser } from '../redux/features/userSlice';
-import axios from "axios";
 
 function Navbar() {
 
-    const getUserData = async () => {
-        try {
-            const res = await axios.get(
-                "/api/v1/user/get-user-info",
-                {
-                    headers: {
-                        Authorization: "Bearer " + localStorage.getItem("token"),
-                    },
-                }
-            );
-            if (res.data.success) {
-                console.log(res.data.user);
-                dispatch(setUser(res.data.user));
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    useEffect(() => {
-        getUserData();
-    }, []);
+    const navigate = useNavigate();
+    const {user} = useSelector(state => state.user);
 
     const dispatch = useDispatch();
 
     const handleLogout = () => {
         localStorage.clear();
         dispatch(setUser(null));
+        navigate('/');
     }
 
-    const { user } = useSelector(state => state.user);
     const navMenu = [
         {
             name: "Home",
@@ -108,7 +87,7 @@ function Navbar() {
                         </li> */}
                         {
                             navbarMenu.map((element, index) =>
-                            (<li className='flex items-center gap-2 py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'>
+                            (<li className='flex items-center cursor-pointer gap-2 py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'>
                                 <i className={element.icon} />
                                 <Link to={element.path} className="">{element.name}</Link>
                                 {
@@ -121,7 +100,7 @@ function Navbar() {
                             )
                         }
                         {user &&
-                            (<li onClick={handleLogout} className='flex items-center gap-2 py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'>
+                            (<li onClick={handleLogout} className='flex items-center cursor-pointer gap-2 py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'>
                                 <i className="fa-solid fa-arrow-right-from-bracket"></i>
                                 <p className="" >Logout</p>
                             </li>)

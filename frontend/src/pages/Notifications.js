@@ -7,6 +7,7 @@ import { toast } from 'react-toastify'
 function Notifications() {
     const [notifications, setNotifications] = useState([]);
     const [seenNotifications, setSeenNotifications] = useState([]);
+    const [loadded, setLoadded] = useState(false);
     const getAllNotifications = async () => {
         try {
             const res = await axios.get('/api/v1/user/get-all-notifications', {
@@ -16,7 +17,7 @@ function Notifications() {
             });
             if (res.data.success) {
                 setNotifications(res.data.data.notification);
-                console.log(res.data.data);
+                setLoadded(true);
                 setSeenNotifications(res.data.data.seenNotification);
             }
         }
@@ -61,6 +62,7 @@ function Notifications() {
     useEffect(() => {
         getAllNotifications();
     }, []);
+
     return (
         <Layout>
             <div className='flex items-center justify-center mt-10'>
@@ -106,7 +108,6 @@ function Notifications() {
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </Layout>
