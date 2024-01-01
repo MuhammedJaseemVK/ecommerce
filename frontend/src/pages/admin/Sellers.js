@@ -30,13 +30,13 @@ function Sellers() {
                 }
             })
             if (res.data.success) {
-                toast(res.data.message);
+                toast.success(res.data.message);
                 getAllSellers();
             }
         }
         catch (error) {
             console.log(error);
-            toast(error.response.data.message);
+            toast.error(error.response.data.message);
         }
     }
 

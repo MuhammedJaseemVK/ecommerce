@@ -225,11 +225,42 @@ const applyForSellerController = async (req, res) => {
 const getAllNotificationController = async (req, res) => {
     try {
         const user = await userModel.findOne({ _id: req.body.userId });
-        res.status(200).send({ success: true, message: "All requests", data: user.notification });
+        res.status(200).send({ success: true, message: "All requests", data: { notification: user.notification, seenNotification: user.seenNotification } });
     }
     catch (error) {
         console.log(error);
         res.status(500).send({ success: false, message: "Error fetching notifications", error });
+    }
+}
+
+const markAllReadController = async (req, res) => {
+    try {
+        const user = await userModel.findOne({ _id: req.body.userId });
+        const notification = user.notification;
+        const seenNotfication = user.seenNotification;
+        seenNotfication.push(...notification);
+        user.notification = [];
+        user.seenNotification = seenNotfication;
+        await user.save();
+        res.status(201).send({ success: true, message: "Marked all notifications as read" });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).send({ success: false, message: "Error marking all notifications read", error });
+    }
+}
+
+const deleteAllNotificationController =async(req,res)=>{
+    try{
+        const user = await userModel.findOne({ _id: req.body.userId });
+        user.notification = [];
+        user.seenNotification = [];
+        await user.save();
+        res.status(201).send({ success: true, message: "Deleted all notifications" });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).send({ success: false, message: "Error deleting all notifications", error });
     }
 }
 
@@ -242,5 +273,7 @@ module.exports = {
     verifyResetPasswordLinkController,
     resetPasswordController,
     applyForSellerController,
-    getAllNotificationController
+    getAllNotificationController,
+    markAllReadController,
+    deleteAllNotificationController
 }
