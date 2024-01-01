@@ -1,56 +1,50 @@
-import React, { useEffect } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
-import { hideLoading, showLoading } from '../redux/features/alertSlice';
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { setUser } from '../redux/features/userSlice';
-import { toast } from 'react-toastify';
 
-function UserRoute({ children }) {
-    const dispatch = useDispatch();
+import axios from 'axios';
+
+function NonUserRoute({ children }) {
     const { user } = useSelector(state => state.user);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const getUser = async () => {
         try {
-            dispatch(showLoading());
             const res = await axios.get('/api/v1/user/get-user-info',
                 {
                     headers: {
                         "Authorization": "Bearer " + localStorage.getItem("token")
                     }
                 });
-            dispatch(hideLoading());
             if (res.data.success) {
+                console.log(res.data);
                 dispatch(setUser(res.data.user));
             }
             else {
-                toast("Login first");
                 navigate('/');
+                localStorage.clear();
             }
         }
         catch (error) {
-            dispatch(hideLoading());
             localStorage.clear();
             console.log(error);
         }
     }
 
-    // useEffect(() => {
-    // if (!user) {
-    //     getUser();
-    // }
-    // }, [])
-
     if (localStorage.getItem('token')) {
         if (!user) {
             getUser();
         }
-        return children
+        else {
+            navigate('/');
+        }
     }
     else {
-        return <Navigate to='/' />
+        return children
     }
+
 
 }
 
-export default UserRoute
+export default NonUserRoute

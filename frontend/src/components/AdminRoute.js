@@ -1,52 +1,53 @@
 import React, { useEffect } from 'react'
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { hideLoading, showLoading } from '../redux/features/alertSlice';
 import { setUser } from '../redux/features/userSlice';
+import { toast } from 'react-toastify';
 
 function AdminRoute({ children }) {
     const dispatch = useDispatch();
     const { user } = useSelector(state => state.user);
-
+    const navigate=useNavigate();
     const getUser = async () => {
         try {
-            dispatch(showLoading());
-            console.log("fetching");
+            // dispatch(showLoading());
             const res = await axios.get('/api/v1/user/get-user-info',
                 {
                     headers: {
                         "Authorization": "Bearer " + localStorage.getItem("token")
                     }
                 });
-            dispatch(hideLoading());
-            console.log("fetching done");
+            // dispatch(hideLoading());
             if (res.data.success && res.data.user.role === "admin") {
                 dispatch(setUser(res.data.user));
             }
             else {
-                <Navigate to='/login' />
-                localStorage.clear();
+                navigate('/')
             }
         }
         catch (error) {
-            dispatch(hideLoading());
+            // dispatch(hideLoading());
             localStorage.clear();
             console.log(error);
         }
     }
 
-    useEffect(() => {
+    // useEffect(() => {
+        // if (!user) {
+        //     getUser();
+        // }
+    // }, []);
+
+    if (localStorage.getItem('token')) {
         if (!user) {
             getUser();
         }
-    }, []);
-
-    if (localStorage.getItem('token')) {
         return children
     }
     else {
-        return <Navigate to='/login' />
+        return <Navigate to='/' />
     }
 }
 

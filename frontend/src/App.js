@@ -17,6 +17,7 @@ import Users from './pages/admin/Users';
 import AdminRoute from './components/AdminRoute';
 import UserRoute from './components/UserRoute';
 import PublicRoute from './components/PublicRoute';
+import NonUserRoute from './components/NonUserRoute';
 
 function App() {
   const { loading } = useSelector(state => state.alerts);
@@ -30,15 +31,15 @@ function App() {
             <ToastContainer />
             <Routes>
               <Route path='/' element={<PublicRoute><Home /></PublicRoute>} />
-              <Route path='/register' element={<PublicRoute><Register /></PublicRoute>} />
-              <Route path='/login' element={<PublicRoute><Login /></PublicRoute>} />
+              <Route path='/register' element={<NonUserRoute><Register /></NonUserRoute>} />
+              <Route path='/login' element={<NonUserRoute><Login /></NonUserRoute>} />
               <Route path='/user/:id/verify/:token' element={<VerifyEmail />} />
               <Route path='/user/reset-password/:id/:token' element={<ResetPassword />} />
               <Route path='/user/forgot-password' element={<ForgotPassword />} />
               <Route path='/user/apply-for-seller' element={<ApplyForSeller />} />
-              <Route path='/notifications' element={<Notifications />} />
-              <Route path='/admin/sellers' element={<Sellers />} />
-              <Route path='/admin/users' element={<Users />} />
+              <Route path='/notifications' element={<UserRoute><Notifications /></UserRoute>} />
+              <Route path='/admin/sellers' element={<AdminRoute><Sellers /></AdminRoute>} />
+              <Route path='/admin/users' element={<AdminRoute><Users /></AdminRoute>} />
             </Routes>
           </>
         )}
