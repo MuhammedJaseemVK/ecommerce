@@ -62,9 +62,6 @@ function Users() {
                             <th scope="col" className="px-6 py-3">
                                 verified
                             </th>
-                            {/* <th scope="col" className="px-6 py-3">
-                                Action
-                            </th> */}
                         </tr>
                     </thead>
                     <tbody>
@@ -83,19 +80,6 @@ function Users() {
                                     <td className="px-6 py-4">
                                         {user.isVerified ? "Verified" : "Not verified"}
                                     </td>
-                                    {/* <td className="px-6 py-4">
-                                        {user.status}
-                                    </td> */}
-                                    {/* {
-                                        user.status === 'approved' ?
-                                            (<td className="px-6 py-4">
-                                                <button onClick={() => handleAccountStatus(user, 'rejected')} type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Reject</button>
-                                            </td>) :
-                                            (<td className="px-6 py-4">
-                                                <button onClick={() => handleAccountStatus(user, 'approved')} type="button" className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Accept</button>
-                                            </td>)
-
-                                    } */}
                                 </tr>
                             ))
                         }
