@@ -19,6 +19,8 @@ import UserRoute from './components/UserRoute';
 import PublicRoute from './components/PublicRoute';
 import NonUserRoute from './components/NonUserRoute';
 import AddProduct from './pages/seller.js/AddProduct';
+import SellerRoute from './components/SellerRoute';
+import MyProducts from './pages/seller.js/MyProducts';
 
 function App() {
   const { loading } = useSelector(state => state.alerts);
@@ -41,7 +43,8 @@ function App() {
               <Route path='/notifications' element={<UserRoute><Notifications /></UserRoute>} />
               <Route path='/admin/sellers' element={<AdminRoute><Sellers /></AdminRoute>} />
               <Route path='/admin/users' element={<AdminRoute><Users /></AdminRoute>} />
-              <Route path='/seller/add-product' element={<AddProduct />} />
+              <Route path='/seller/add-product' element={<SellerRoute> <AddProduct /></SellerRoute>} />
+              <Route path='/seller/my-products' element={<SellerRoute> <MyProducts /></SellerRoute>} />
             </Routes>
           </>
         )}
