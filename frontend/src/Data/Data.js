@@ -38,6 +38,11 @@ export const sellerMenu =[
         icon:"fa-solid fa-user-doctor"
     },
     {
+        name:"Add Product",
+        path:'/seller/add-product',
+        icon:"fa-solid fa-user-doctor"
+    },
+    {
         name:"Notifications",
         path:'/notifications',
         icon:"fa-solid fa-user-doctor"

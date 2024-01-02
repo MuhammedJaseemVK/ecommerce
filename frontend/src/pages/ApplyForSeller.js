@@ -49,11 +49,11 @@ function ApplyForSeller() {
             <form className="form-container" onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="firstName" className="label-field">First name</label>
-                    <input type="firstName" value={input.firstName} id="firstName" name="firstName" onChange={handleChange} className="input-field" placeholder="firstName" required minLength={3} />
+                    <input type="text" value={input.firstName} id="firstName" name="firstName" onChange={handleChange} className="input-field" placeholder="firstName" required minLength={3} />
                 </div>
                 <div>
                     <label htmlFor="lastName" className="label-field">Last name</label>
-                    <input type="lastName" value={input.lastName} id="lastName" name="lastName" onChange={handleChange} className="input-field" placeholder="lastName" required minLength={3} />
+                    <input type="text" value={input.lastName} id="lastName" name="lastName" onChange={handleChange} className="input-field" placeholder="lastName" required minLength={3} />
                 </div>
                 <div>
                     <label htmlFor="email" className="label-field">Email</label>

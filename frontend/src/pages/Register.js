@@ -42,7 +42,7 @@ function Register() {
             <form className="form-container" onSubmit={handleSubmit}>
                 <div className="mb-5">
                     <label htmlFor="name" className="label-field">Your name</label>
-                    <input type="name" value={input.name} id="name" name="name" onChange={handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="name" required minLength={3} />
+                    <input type="text" value={input.name} id="name" name="name" onChange={handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="name" required minLength={3} />
                 </div>
                 <div className="mb-5">
                     <label htmlFor="email" className="label-field">Your email</label>
