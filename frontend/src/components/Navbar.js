@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { adminMenu, sellerMenu, userMenu } from '../Data/Data';
@@ -19,16 +19,19 @@ function Navbar() {
 
     const navMenu = [
         {
+            id: 1,
             name: "Home",
             path: '/',
             icon: "fa-solid fa-house"
         },
         {
+            id: 2,
             name: "Register",
             path: '/register',
             icon: "fa-solid fa-user-plus"
         },
         {
+            id: 3,
             name: "Login",
             path: '/login',
             icon: "fa-solid fa-right-to-bracket"
@@ -37,12 +40,12 @@ function Navbar() {
     const navbarMenu = user ? (user.role === "seller" ? sellerMenu : (user.role === "admin" ? adminMenu : userMenu)) : navMenu
 
     return (
-        <nav className="bg-white border-gray-200 dark:bg-gray-900">
+        <nav className="bg-white border-gray-700 dark:bg-gray-900 fixed w-full z-10 border-b-2">
             <div className=" flex flex-wrap items-center justify-between mx-auto p-4">
-                <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
+                <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                     <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
                     <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">eCommerce</span>
-                </a>
+                </Link>
                 <div className="flex md:order-2">
                     <button type="button" data-collapse-toggle="navbar-search" aria-controls="navbar-search" aria-expanded="false" className="md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1">
                         <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -77,17 +80,17 @@ function Navbar() {
                     </div>
                     <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                         {
-                            navbarMenu.map((element, index) =>
-                            (<li className='flex items-center cursor-pointer gap-2 py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'>
+                            navbarMenu.map((element) =>
+                            (<Link key={element.id} to={element.path} className='flex items-center cursor-pointer gap-2 py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700'>
                                 <i className={element.icon} />
-                                <Link to={element.path} className="">{element.name}</Link>
+                                <p >{element.name}</p>
                                 {
                                     (element.name === "Notifications" && user.notification.length > 0) &&
-                                        (
-                                            <span className="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">{user && user.notification.length}</span>
-                                        )
+                                    (
+                                        <span className="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">{user && user.notification.length}</span>
+                                    )
                                 }
-                            </li>)
+                            </Link>)
                             )
                         }
                         {user &&

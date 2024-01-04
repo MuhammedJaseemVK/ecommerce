@@ -8,16 +8,17 @@ function MyProducts() {
     const [productId, setProductId] = useState('');
     const [productData, setProductData] = useState({
         name: '',
+        description:'',
         category: '',
         subCategory: '',
-        imageUrl: '',
-        price: ''
+        imageUrl:'',
+        price:''
     })
     const ModalOpenRef = useRef();
     const modalCloseRef = useRef();
     const getAllProducts = async () => {
         try {
-            const res = await axios.get('/api/v1/seller/get-all-products', {
+            const res = await axios.get('/api/v1/seller/get-all-seller-products', {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
@@ -42,10 +43,11 @@ function MyProducts() {
                 toast.success(res.data.message);
                 setProductData({
                     name: '',
+                    description:'',
                     category: '',
                     subCategory: '',
-                    imageUrl: '',
-                    price: ''
+                    imageUrl:'',
+                    price:''
                 });
                 getAllProducts();
             }
@@ -77,10 +79,11 @@ function MyProducts() {
                 toast.success(res.data.message);
                 setProductData({
                     name: '',
+                    description:'',
                     category: '',
                     subCategory: '',
-                    imageUrl: '',
-                    price: ''
+                    imageUrl:'',
+                    price:''
                 })
                 getAllProducts();
                 modalCloseRef.current.click();
@@ -112,6 +115,9 @@ function MyProducts() {
                                         Product name
                                     </th>
                                     <th scope="col" className="px-6 py-3">
+                                        description
+                                    </th>
+                                    <th scope="col" className="px-6 py-3">
                                         category
                                     </th>
                                     <th scope="col" className="px-6 py-3">
@@ -127,10 +133,13 @@ function MyProducts() {
                             </thead>
                             <tbody>
                                 {sellerProducts && sellerProducts.map((product) => (
-                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    <tr key={product._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                         <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             {product.name}
                                         </th>
+                                        <td className="px-6 py-4">
+                                            {product.description}
+                                        </td>
                                         <td className="px-6 py-4">
                                             {product.category}
                                         </td>
@@ -164,6 +173,10 @@ function MyProducts() {
                                 <input type="name" value={productData.name} id="name" name="name" onChange={handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="name" required minLength={3} />
                             </div>
                             <div className="mb-5">
+                                <label htmlFor="description" className="label-field">Description</label>
+                                <input type="text" value={productData.description} id="description" name="description" onChange={handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="description" required minLength={3} />
+                            </div>
+                            <div className="mb-5">
                                 <label htmlFor="category" className="label-field">Product category</label>
                                 <input type="text" value={productData.category} id="category" name="category" onChange={handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="category" required minLength={3} />
                             </div>
@@ -176,8 +189,8 @@ function MyProducts() {
                                 <input type="text" value={productData.price} id="price" name="price" onChange={handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="price" required minLength={3} />
                             </div>
                             <div className="mb-5">
-                                <label htmlFor="imageUrl" className="label-field">productImage</label>
-                                <input type="text" value={productData.imageUrl} id="imageUrl" name="imageUrl" onChange={handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="product image url" required minLength={3} />
+                                <label htmlFor="count" className="label-field">productImage</label>
+                                <input type="text" value={productData.count} id="count" name="count" onChange={handleChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="count" required minLength={3} />
                             </div>
                             <button ref={modalCloseRef} data-modal-hide="default-modal" type="button" className="btn">Close</button>
                             <button type="submit" className="btn">Make Changes</button>

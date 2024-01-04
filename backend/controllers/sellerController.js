@@ -1,4 +1,5 @@
 const productModel = require("../models/product");
+const sellerModel = require("../models/seller");
 
 const addProductController = async (req, res) => {
     try {
@@ -12,7 +13,7 @@ const addProductController = async (req, res) => {
     }
 }
 
-const getAllproductsController = async (req, res) => {
+const getAllSellerproductsController = async (req, res) => {
     try {
         const products = await productModel.find({ sellerId: req.body.userId });
         res.status(200).send({ success: true, message: `All new products of the seller:${req.body.userId}`, products })
@@ -25,6 +26,13 @@ const getAllproductsController = async (req, res) => {
 
 const deleteProductController = async (req, res) => {
     try {
+        const product = await productModel.findOne({ _id: req.body.productId });
+        if (!product) {
+            res.status(404).send({ success: false, message: 'Product not found' });
+        }
+        if (product.sellerId !== req.body.productId) {
+            res.status(401).send({ success: false, message: 'Not authorised to delete this product' });
+        }
         await productModel.findByIdAndDelete({ _id: req.body.productId });
         res.status(200).send({ success: true, message: 'Deleted product' })
     }
@@ -36,6 +44,13 @@ const deleteProductController = async (req, res) => {
 
 const editProductController = async (req, res) => {
     try {
+        const product = await productModel.findOne({ _id: req.body.productId });
+        if (!product) {
+            res.status(404).send({ success: false, message: 'Product not found' });
+        }
+        if (product.sellerId !== req.body.productId) {
+            res.status(401).send({ success: false, message: 'Not authorised to delete this product' });
+        }
         await productModel.findByIdAndUpdate({ _id: req.body.productId }, { ...req.body.productData });
         res.status(200).send({ success: true, message: 'product updated' });
     }
@@ -47,7 +62,7 @@ const editProductController = async (req, res) => {
 
 module.exports = {
     addProductController,
-    getAllproductsController,
+    getAllSellerproductsController,
     deleteProductController,
     editProductController
 }

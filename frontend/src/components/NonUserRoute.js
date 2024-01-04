@@ -36,9 +36,6 @@ function NonUserRoute({ children }) {
         if (!user) {
             getUser();
         }
-        else {
-            navigate('/');
-        }
     }
     else {
         return children

@@ -8,20 +8,28 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: [true, "product name is required"]
     },
+    description: {
+        type: String,
+        required: [true, "product name is required"]
+    },
     category: {
         type: String,
         required: [true, "category is required"]
     },
-    imageUrl:{
+    imageUrl: {
         type: String,
         required: [true, "imageUrl is required"]
     },
-    subCategory: {
-        type: String,
-        required: [true, "sub category is required"]
+    rating: {
+        type: Number,
+        default: 3
     },
     price: {
         type: String,
+        required: [true, "price is required"]
+    },
+    count: {
+        type: Number,
         required: [true, "price is required"]
     },
 }, { timestamps: true });

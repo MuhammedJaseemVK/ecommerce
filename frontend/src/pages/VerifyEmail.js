@@ -29,12 +29,12 @@ function VerifyEmail() {
     return (
         <>
             {validUrl ? (
-                <div className='container'>
+                <div className='container text-white'>
                     <FaLink color='green' size={50}/>
                     <p className='text-xl'>Email verified successfully</p>
                 </div>
             ) : (
-                <div className='container'>
+                <div className='container text-white'>
                     <FaLinkSlash color='red' size={50}/>
                     <p className='text-xl'>Invalid link</p>
                 </div>

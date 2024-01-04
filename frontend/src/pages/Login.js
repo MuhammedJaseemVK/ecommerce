@@ -41,20 +41,33 @@ function Login() {
     }
     return (
         <div className='container'>
-            <form className="form-container" onSubmit={handleSubmit}>
-                <h1 className='text-4xl font-bold mb-4 text-white'>User login</h1>
-                <div className="mb-5">
-                    <label htmlFor="email" className="label-field">Your email</label>
-                    <input type="email" id="email" value={input.email} name="email" onChange={handleChange} className="input-field" placeholder="name@email.com" required />
+            <section className="bg-white dark:bg-gray-900">
+                <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+                    <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Login</h2>
+                    <form onSubmit={handleSubmit}>
+                        <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
+                            <div className="sm:col-span-2">
+                                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                                <input type="email" value={input.email} onChange={handleChange} name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="name@email.com" required />
+                            </div>
+                            <div className="sm:col-span-2">
+                                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                                <input type="password" value={input.password} onChange={handleChange} name="password" id="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="password" required />
+                            </div>
+                        </div>
+                        <div className='flex justify-between'>
+                            <button type="submit" className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
+                                Login
+                            </button>
+                            <button onClick={() => navigate('/')} className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-primary-700 bg-white rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-gray-200">Go back</button>
+                        </div>
+                        <div className='flex flex-col mt-3 items-center'>
+                            <Link to='/user/forgot-password' className='mt-3 text-white'>Forgot password ?</Link>
+                            <Link to='/register' className='mt-3 text-white'>Don't have an account? Signup</Link>
+                        </div>
+                    </form>
                 </div>
-                <div className="mb-5">
-                    <label htmlFor="password" className="label-field">Your password</label>
-                    <input type="password" id="password" value={input.password} name="password" onChange={handleChange} className="input-field" placeholder="password" required minLength={3} />
-                </div>
-                <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center ">Login</button>
-                <Link to='/user/forgot-password' className='mt-3'>Forgot password ?</Link>
-                <Link to='/register' className='mt-3'>Don't have an account? Signup</Link>
-            </form>
+            </section >
         </div>
     )
 }

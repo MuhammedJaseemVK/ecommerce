@@ -6,6 +6,7 @@ const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 const sellerModel = require("../models/seller");
 dotenv.config();
+const productModel = require("../models/product");
 
 const registerController = async (req, res) => {
     try {
@@ -250,8 +251,8 @@ const markAllReadController = async (req, res) => {
     }
 }
 
-const deleteAllNotificationController =async(req,res)=>{
-    try{
+const deleteAllNotificationController = async (req, res) => {
+    try {
         const user = await userModel.findOne({ _id: req.body.userId });
         user.notification = [];
         user.seenNotification = [];
@@ -261,6 +262,30 @@ const deleteAllNotificationController =async(req,res)=>{
     catch (error) {
         console.log(error);
         res.status(500).send({ success: false, message: "Error deleting all notifications", error });
+    }
+}
+
+const getAllproductsController = async (req, res) => {
+    try {
+        const products = await productModel.find({});
+        res.status(200).send({ success: true, message: 'All products are fetched', products });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).send({ success: false, message: 'Error fetching all products', error });
+    }
+}
+
+
+const getAProductController = async (req, res) => {
+    try {
+        const product = await productModel.findOne({ _id: req.params.productId });
+        const seller = await sellerModel.findOne({ userId: product.sellerId });
+        res.status(200).send({ success: true, message: 'product is fetched', product, seller });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).send({ success: false, message: 'Error fetching the product', error });
     }
 }
 
@@ -275,5 +300,7 @@ module.exports = {
     applyForSellerController,
     getAllNotificationController,
     markAllReadController,
-    deleteAllNotificationController
+    deleteAllNotificationController,
+    getAllproductsController,
+    getAProductController
 }

@@ -4,9 +4,9 @@ import Navbar from './Navbar';
 function Layout({ children }) {
 
     return (
-        <div className='h-screen w-full bg-yellow-500 relative '>
+        <div className='h-cover w-full bg-gray-900 absolute'>
             <Navbar />
-            <div className='max-w-screen-xl mx-auto mt-5'>{children}</div>
+            <div className='max-w-screen-xl mx-auto mt-20'>{children}</div>
         </div>
     )
 }

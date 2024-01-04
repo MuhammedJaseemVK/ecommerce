@@ -32,7 +32,7 @@ const changeAccountStatusController = async (req, res) => {
         const notification = user.notification;
         notification.push({
             type: `seller account request approved`,
-            message: `Your doctor account request has ${status}`,
+            message: `Your seller account request has ${status}`,
             onClickPath: '/notification'
         });
 
