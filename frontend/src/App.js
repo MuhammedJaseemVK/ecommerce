@@ -55,10 +55,10 @@ function App() {
             <Routes>
               {/* Public route */}
               <Route path='/' element={<PublicRoute><Home /></PublicRoute>} />
+              <Route path='/products/:productId' element={<PublicRoute><Product /></PublicRoute>} />
               {/* nonUser route */}
               <Route path='/register' element={<NonUserRoute><Register /></NonUserRoute>} />
               <Route path='/login' element={<NonUserRoute><Login /></NonUserRoute>} />
-              <Route path='/products/:productId' element={<NonUserRoute><Product /></NonUserRoute>} />
               {/* normal routes */}
               <Route path='/user/:id/verify/:token' element={<VerifyEmail />} />
               <Route path='/user/reset-password/:id/:token' element={<ResetPassword />} />
