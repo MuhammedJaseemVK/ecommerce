@@ -7,6 +7,7 @@ const crypto = require("crypto");
 const sellerModel = require("../models/seller");
 dotenv.config();
 const productModel = require("../models/product");
+const Razorpay = require("razorpay");
 
 const registerController = async (req, res) => {
     try {
@@ -288,6 +289,44 @@ const getAProductController = async (req, res) => {
         res.status(500).send({ success: false, message: 'Error fetching the product', error });
     }
 }
+const checkoutController = async (req, res) => {
+    try {
+        req.body.userId = undefined;
+        const razorpay = new Razorpay({
+            key_id: process.env.RAZORPAY_KEY_ID,
+            key_secret: process.env.RAZORPAY_SECRET
+        });
+
+        const options = req.body;
+        const order = await razorpay.orders.create(options);
+
+        if (!order) {
+            return res.status(500).send('Error');
+        }
+        res.status(200).send(order);
+    }
+    catch (error) {
+        console.log(error);
+        res.send(500).send({ message: "Error in checkout" });
+    }
+}
+
+const validateOrderController = async (req, res) => {
+    try {
+        const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+        const sha = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET);
+        sha.update(`${razorpay_order_id}|${razorpay_payment_id}`);
+        const digest = sha.digest("hex");
+        if (digest !== razorpay_signature) {
+            return res.status(404).send({ message: "Transaction is not legit" });
+        }
+        res.status(200).send({ message: "success", orderId: razorpay_order_id, paymentId: razorpay_payment_id });
+    }
+    catch (error) {
+        console.log(error);
+        res.send(500).send({ message: "Error in checkout" });
+    }
+}
 
 module.exports = {
     registerController,
@@ -302,5 +341,7 @@ module.exports = {
     markAllReadController,
     deleteAllNotificationController,
     getAllproductsController,
-    getAProductController
+    getAProductController,
+    checkoutController,
+    validateOrderController
 }
